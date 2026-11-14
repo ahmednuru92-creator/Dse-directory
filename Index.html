@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f172a">
+    <title>አገር ከተማ ዲሬክተሪ | Agar City Directory</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Noto Sans Ethiopic', sans-serif;
+            background-color: #f1f5f9;
+            color: #0f172a;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .bg-navy { background-color: #0f172a; }
+        .bg-navy-light { background-color: #1e293b; }
+        .text-gold { color: #d4af37; }
+        .bg-gold { background-color: #d4af37; }
+        .border-gold { border-color: #d4af37; }
+        .tab-active {
+            background-color: #0f172a;
+            color: #d4af37;
+            border-color: #d4af37;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="min-h-screen pb-24">
+
+    <!-- Top Executive Header -->
+    <header class="bg-navy text-white sticky top-0 z-40 shadow-lg border-b border-gold/40">
+        <div class="max-w-5xl mx-auto px-4 py-3.5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-yellow-600 flex items-center justify-center text-navy font-extrabold text-lg shadow-md">
+                    አገር
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-extrabold text-gold leading-tight">አገር ከተማ ዲሬክተሪ</h1>
+                    <p class="text-[11px] text-slate-300 tracking-wide">AGAR CITY DIRECTORY</p>
+                </div>
+            </div>
+            <div>
+                <button onclick="switchSection('add')" class="bg-gold text-navy px-3 py-1.5 rounded-xl text-xs font-extrabold shadow">
+                    + ማስታወቂያ ጻፍ
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 pt-5 space-y-6">
+
+        <!-- HOME VIEW -->
+        <div id="view-home" class="space-y-6">
+            <div class="rounded-2xl p-6 text-white shadow-xl border border-gold/50 relative overflow-hidden" style="background: linear-gradient(135deg, #0f172a 0%, #172554 60%, #1e293b 100%);">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-block bg-gold text-navy text-[10px] font-extrabold px-3 py-1 rounded-full mb-3 shadow">
+                        🏙️ የከተማው ንግድ፣ ስራ እና ቤት ማስተዋወቂያ መድረክ
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white leading-snug mb-2">
+                        የንግድ ድርጅቶች፣ ባለሙያዎች እና የቤት ኪራይ ማዕከል
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-200 mb-5 leading-relaxed">
+                        በከተማዎ ያሉ የተመረጡ ሱቆች፣ የሥራ ዕድሎች፣ ባለሙያዎች እና የቤት ማስታወቂያዎችን በአንድ ቦታ ያግኙ።
+                    </p>
+                    <div class="flex flex-wrap gap-2.5">
+                        <button onclick="switchSection('add')" class="bg-gold text-navy font-extrabold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow">
+                            + ንግድዎን/ማስታወቂያዎን ይመዝግቡ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search & Filter -->
+            <div class="space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <h3 class="text-lg font-extrabold text-navy">ከተማ አቀፍ ማስታወቂያዎች</h3>
+                    <input type="text" id="searchInput" onkeyup="renderListings()" placeholder="በስም፣ በስራ ወይም በአድራሻ ይፈልጉ..." class="w-full sm:w-72 bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-navy">
+                </div>
+
+                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                    <button onclick="filterCategory('all', this)" class="cat-btn tab-active border px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition">ሁሉም (All)</button>
+                    <button onclick="filterCategory('business', this)" class="cat-btn bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition">🏪 የንግድ ድርጅቶች</button>
+                    <button onclick="filterCategory('job', this)" class="cat-btn bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition">💼 የስራ ማስታወቂያ</button>
+                    <button onclick="filterCategory('pro', this)" class="cat-btn bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition">🛠️ ባለሙያዎች/ሰዎች</button>
+                    <button onclick="filterCategory('property', this)" class="cat-btn bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition">🏠 ቤት/ክፍል ኪራይ</button>
+                </div>
+
+                <div id="listingsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+        </div>
+
+        <!-- ADD VIEW -->
+        <div id="view-add" class="hidden space-y-5">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 max-w-2xl mx-auto">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-5">
+                    <h2 class="text-lg font-extrabold text-navy">አዲስ ማስታወቂያ ወይም ንግድ መዝግብ</h2>
+                    <button onclick="switchSection('home')" class="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg">ተመለስ</button>
+                </div>
+                <form onsubmit="submitListing(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-navy mb-1">የምድብ ዓይነት *</label>
+                        <select id="listCategory" class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-bold bg-slate-50">
+                            <option value="business">🏪 የንግድ ድርጅት / ሱቅ / ካፌ</option>
+                            <option value="job">💼 የስራ ክፍት ቦታ (Job Vacancy)</option>
+                            <option value="pro">🛠️ ባለሙያ / አጭር ስራ ፈላጊ (Professional)</option>
+                            <option value="property">🏠 የቤት / ክፍል ኪራይ ወይም ሽያጭ</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-navy mb-1">ርዕስ / የድርጅቱ ወይም የስራው ስም *</label>
+                        <input type="text" id="listTitle" required placeholder="ለምሳሌ፡ ሸበል ካፌ..." class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-navy mb-1">ዋጋ ወይም ደመወዝ (ካለ)</label>
+                        <input type="text" id="listPrice" placeholder="ብር 5,000 / ወር..." class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-navy mb-1">አድራሻ / አካባቢ *</label>
+                        <input type="text" id="listLocation" required placeholder="ፒያሳ..." class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-navy mb-1">ዝርዝር መግለጫ *</label>
+                        <textarea id="listDesc" rows="3" required placeholder="ዝርዝር ሁኔታ ጻፉ..." class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" id="listContactName" required placeholder="ስምዎ" class="border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs">
+                        <input type="tel" id="listPhone" required placeholder="09..." class="border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs">
+                    </div>
+                    <button type="submit" class="w-full bg-navy text-gold font-extrabold py-3.5 rounded-xl text-sm shadow-lg">ማስታወቂያውን 📌 ለጠፍ</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-navy text-white border-t border-gold/40 z-40 shadow-2xl">
+        <div class="max-w-5xl mx-auto grid grid-cols-2 py-2.5">
+            <button onclick="switchSection('home')" id="nav-home" class="nav-item flex flex-col items-center justify-center text-gold">
+                <span class="text-base">🏠</span>
+                <span class="text-[10px] font-bold mt-0.5">መነሻ</span>
+            </button>
+            <button onclick="switchSection('add')" id="nav-add" class="nav-item flex flex-col items-center justify-center text-slate-400">
+                <span class="text-base">➕</span>
+                <span class="text-[10px] font-bold mt-0.5">ማስታወቂያ ጻፍ</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        const defaultListings = [
+            { id: 1, category: 'business', tag: 'የንግድ ድርጅት', title: 'ዘመናዊ ሸበል ፈርኒቸር ማሳያ', price: 'ጥራት ያለው ርክክብ', location: 'ዋና መንገድ', desc: 'የቤት እና ቢሮ ፈርኒቸሮች አቅራቢ።', contact: 'አቶ ንጉሱ', phone: '0911223344', date: '2026-10-01' },
+            { id: 2, category: 'job', tag: 'ስራ ክፍት ቦታ', title: 'የማርኬቲንግ ሰራተኛ ይፈለጋል', price: 'ብር 8,000', location: 'ፒያሳ', desc: 'በዲጂታል ማርኬቲንግ ልምድ ያለው።', contact: 'ያሬድ', phone: '0922334455', date: '2026-10-02' }
+        ];
+
+        let currentCategory = 'all';
+        let allListings = JSON.parse(localStorage.getItem('agar_directory_v3') || JSON.stringify(defaultListings));
+
+        function init() { renderListings(); }
+
+        function filterCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.classList.remove('tab-active');
+                b.classList.add('bg-white', 'text-slate-700', 'border-slate-200');
+            });
+            btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
+            btn.classList.add('tab-active');
+            renderListings();
+        }
+
+        function renderListings() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const grid = document.getElementById('listingsGrid');
+            const filtered = allListings.filter(item => {
+                const matchCat = currentCategory === 'all' || item.category === currentCategory;
+                const matchSearch = item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query);
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-xs text-slate-400">ምንም ማስታወቂያ አልተገኘም።</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(item => `
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-extrabold bg-blue-100 text-blue-900 px-2 py-0.5 rounded">${item.tag}</span>
+                        <h4 class="font-extrabold text-navy text-base mt-2">${item.title}</h4>
+                        <p class="text-xs font-bold text-amber-700 mt-0.5">💰 ${item.price}</p>
+                        <p class="text-xs text-slate-500 mt-1">${item.desc}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
+                        <div>
+                            <p class="font-bold text-navy">📍 ${item.location}</p>
+                            <p class="text-slate-500">📞 ${item.phone}</p>
+                        </div>
+                        <a href="tel:${item.phone}" class="bg-navy text-gold font-extrabold px-3.5 py-2 rounded-xl">ደውል</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function submitListing(e) {
+            e.preventDefault();
+            const cat = document.getElementById('listCategory').value;
+            const newItem = {
+                id: Date.now(),
+                category: cat,
+                tag: cat === 'job' ? 'ስራ ክፍት ቦታ' : 'የንግድ ድርጅት',
+                title: document.getElementById('listTitle').value,
+                price: document.getElementById('listPrice').value || 'በስምምነት',
+                location: document.getElementById('listLocation').value,
+                desc: document.getElementById('listDesc').value,
+                contact: document.getElementById('listContactName').value,
+                phone: document.getElementById('listPhone').value,
+                date: new Date().toLocaleDateString()
+            };
+            allListings.unshift(newItem);
+            localStorage.setItem('agar_directory_v3', JSON.stringify(allListings));
+            renderListings();
+            e.target.reset();
+            switchSection('home');
+        }
+
+        function switchSection(section) {
+            ['home', 'add'].forEach(v => document.getElementById('view-' + v).classList.add('hidden'));
+            document.getElementById('view-' + section).classList.remove('hidden');
+            document.querySelectorAll('.nav-item').forEach(n => { n.classList.remove('text-gold'); n.classList.add('text-slate-400'); });
+            document.getElementById('nav-' + section).classList.remove('text-slate-400');
+            document.getElementById('nav-' + section).classList.add('text-gold');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        init();
+    </script>
+</body>
+</html>
